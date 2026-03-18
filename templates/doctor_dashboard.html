@@ -1,0 +1,118 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Doctor Dashboard</title>
+
+  <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/css/main.css' %}" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+<!-- 🔹 NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-bold" href="#">ClinicEasy</a>
+
+    <!-- 👨‍⚕️ Doctor Name -->
+    <span class="navbar-text text-white me-3">
+  {% if doctor %}
+    Welcome, <strong>{{ doctor.name }}</strong>
+  {% else %}
+    Welcome, <strong>{{ user.username }}</strong>
+  {% endif %}
+</span>
+
+
+
+    <div class="navbar-collapse">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          {% if user.is_authenticated %}
+          <a class="nav-link" href="{% url 'my_appointments' %}">My Appointments</a>
+          {% endif %}
+        </li>
+        <li class="nav-item">
+          <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button class="btn btn-outline-light btn-sm">Logout</button>
+          </form>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- 🔹 DASHBOARD CONTENT -->
+<div class="container mt-5">
+  <h2 class="text-center mb-4">Doctor Dashboard</h2>
+
+  <table class="table table-bordered table-hover bg-white shadow">
+    <thead class="table-primary">
+      <tr>
+        <th>Patient</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Date</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+
+    <tbody>
+    {% for a in appointments %}
+      <tr>
+        <td>{{ a.patient_name }}</td>
+        <td>{{ a.email }}</td>
+        <td>{{ a.phone }}</td>
+        {% comment %} <td>{{ a.appointment }}</td> {% endcomment %}
+
+        <td>
+  {{ a.appointment_date }} <br>
+  <small class="text-muted">{{ a.appointment_time }}</small>
+</td>
+
+        <td>
+          {% if a.status == "Approved" %}
+            <span class="badge bg-success">Approved</span>
+          {% elif a.status == "Rejected" %}
+            <span class="badge bg-danger">Rejected</span>
+          {% else %}
+            <span class="badge bg-warning text-dark">Pending</span>
+          {% endif %}
+        </td>
+
+        <td>
+          {% if a.status == "Pending" %}
+            <form method="post" style="display:inline;">
+              {% csrf_token %}
+              <input type="hidden" name="appointment_id" value="{{ a.id }}">
+              <input type="hidden" name="action" value="approve">
+              <button class="btn btn-success btn-sm">Approve</button>
+            </form>
+
+            <form method="post" style="display:inline;">
+              {% csrf_token %}
+              <input type="hidden" name="appointment_id" value="{{ a.id }}">
+              <input type="hidden" name="action" value="reject">
+              <button class="btn btn-danger btn-sm">Reject</button>
+            </form>
+          {% else %}
+            —
+          {% endif %}
+        </td>
+      </tr>
+    {% empty %}
+      <tr>
+        <td colspan="6" class="text-center text-muted">
+          No appointments found
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>

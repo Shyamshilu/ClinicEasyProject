@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Doctor Profile - ClinicEasy{% endblock %}
+
+{% block content %}
+
+<div class="container py-5" style="margin-top: 100px;">
+
+  <div class="row g-4 align-items-start">
+
+    <!-- 👨‍⚕️ DOCTOR INFO -->
+    <div class="col-lg-4">
+      <div class="card shadow-lg border-0 h-100 text-center p-3">
+
+        {% if doctor.image %}
+          <img src="{{ doctor.image.url }}" class="img-fluid rounded mb-3" style="height:250px; object-fit:cover;">
+        {% else %}
+          <img src="{% static 'assets/img/health/staff-1.webp' %}" class="img-fluid rounded mb-3">
+        {% endif %}
+
+        <h4 class="fw-bold">{{ doctor.name }}</h4>
+        <p class="text-primary">{{ doctor.specialization }}</p>
+
+        <!-- ⭐ AVERAGE RATING (FIXED POSITION) -->
+        {% if avg_rating %}
+        <div class="text-warning fs-5 mb-2">
+          {% for i in "12345" %}
+            {% if forloop.counter <= avg_rating %}
+              <i class="bi bi-star-fill"></i>
+            {% else %}
+              <i class="bi bi-star"></i>
+            {% endif %}
+          {% endfor %}
+          <span class="text-dark ms-2">
+            {{ avg_rating|floatformat:1 }} / 5 ({{ total_reviews }})
+          </span>
+        </div>
+        {% else %}
+          <p class="text-muted">No ratings yet</p>
+        {% endif %}
+
+        <p class="small text-muted">
+          {{ doctor.description|default:"Experienced medical professional." }}
+        </p>
+
+        <hr>
+
+        <div class="text-start small">
+          <p><i class="bi bi-award text-primary"></i> {{ doctor.experience }} Years</p>
+          <p><i class="bi bi-building text-primary"></i> {{ doctor.department }}</p>
+          <p><i class="bi bi-geo-alt text-primary"></i> {{ doctor.location }}</p>
+        </div>
+
+        <a href="{% url 'appointment' doctor.id %}" class="btn btn-primary mt-3 w-100">
+          Book Appointment
+        </a>
+
+      </div>
+    </div>
+
+    <!-- ⭐ REVIEWS -->
+    <div class="col-lg-8">
+
+      <div class="card shadow-lg border-0 mb-4 p-4">
+        <h4 class="fw-bold mb-3">Patient Reviews</h4>
+
+        {% for review in reviews %}
+        <div class="border-bottom pb-3 mb-3">
+
+          <div class="d-flex justify-content-between">
+            <strong>{{ review.user.username }}</strong>
+
+            <!-- ⭐ Individual Rating -->
+            <div class="text-warning">
+              {% for i in "12345" %}
+                {% if forloop.counter <= review.rating %}
+                  <i class="bi bi-star-fill"></i>
+                {% else %}
+                  <i class="bi bi-star"></i>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+
+          <p class="mt-2 mb-1">{{ review.comment }}</p>
+          <small class="text-muted">{{ review.created_at|date:"d M Y" }}</small>
+
+        </div>
+        {% empty %}
+        <div class="alert alert-info">
+          No reviews yet. Be the first!
+        </div>
+        {% endfor %}
+
+      </div>
+
+      <!-- ✍ ADD REVIEW -->
+      <div class="card shadow-lg border-0 p-4">
+
+        {% if user.is_authenticated %}
+        <h5 class="fw-bold mb-3">Write a Review</h5>
+
+        <form method="POST">
+          {% csrf_token %}
+
+          <select name="rating" class="form-select mb-3" required>
+            <option value="">Select Rating</option>
+            <option value="5">⭐⭐⭐⭐⭐</option>
+            <option value="4">⭐⭐⭐⭐</option>
+            <option value="3">⭐⭐⭐</option>
+            <option value="2">⭐⭐</option>
+            <option value="1">⭐</option>
+          </select>
+
+          <textarea name="comment" class="form-control mb-3" placeholder="Write your review..." required></textarea>
+
+          <button type="submit" class="btn btn-success">Submit</button>
+        </form>
+
+        {% else %}
+        <div class="alert alert-warning">Login to review</div>
+        {% endif %}
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+{% endblock %}

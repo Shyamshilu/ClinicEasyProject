@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home - ClinicEasy{% endblock %}
+
+{% block body_class %} class="index-page"{% endblock %}
+
+{% block content %}
+
+<!-- ================= HERO ================= -->
+<section class="hero mt-5 pt-5">
+  <div class="container text-center">
+    <h1>Excellence in Healthcare</h1>
+    <p>Book appointments with trusted doctors easily.</p>
+    <a href="{% url 'doctors' %}" class="btn btn-success">
+      Book Appointment
+    </a>
+  </div>
+</section>
+
+<!-- ================= SERVICES ================= -->
+<section class="container my-5">
+  <h2 class="text-center mb-4">Our Services</h2>
+
+  <div class="row text-center">
+    <div class="col-md-4">
+      <img src="{% static 'assets/img/health/consultation-4.webp' %}" class="img-fluid">
+      <h4>Consultation</h4>
+    </div>
+
+    <div class="col-md-4">
+      <img src="{% static 'assets/img/health/emergency-1.webp' %}" class="img-fluid">
+      <h4>Emergency Care</h4>
+    </div>
+
+    <div class="col-md-4">
+      <img src="{% static 'assets/img/health/vaccination-3.webp' %}" class="img-fluid">
+      <h4>Vaccination</h4>
+    </div>
+  </div>
+</section>
+
+<!-- ================= DOCTORS ================= -->
+<section class="container my-5">
+  <h2 class="text-center mb-4">Our Doctors</h2>
+
+  <div class="row text-center">
+    <div class="col-md-4">
+      <img src="{% static 'assets/img/health/staff-2.webp' %}" class="img-fluid rounded">
+      <h5>Dr. Arjun Sharma</h5>
+    </div>
+
+    <div class="col-md-4">
+      <img src="{% static 'assets/img/health/staff-6.webp' %}" class="img-fluid rounded">
+      <h5>Dr. Anjali Verma</h5>
+    </div>
+
+    <div class="col-md-4">
+      <img src="{% static 'assets/img/health/staff-4.webp' %}" class="img-fluid rounded">
+      <h5>Dr. Kavita Gupta</h5>
+    </div>
+  </div>
+
+  <div class="text-center mt-4">
+    <a href="{% url 'doctors' %}" class="btn btn-outline-primary">
+      View All Doctors
+    </a>
+  </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'adminpanel/base.html' %}
+
+{% block content %}
+<div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+        <h5 class="mb-0">Add Patient</h5>
+    </div>
+
+    <div class="card-body">
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">User</label>
+                    {{ form.user }}
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Name</label>
+                    {{ form.name }}
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Gender</label>
+                    {{ form.gender }}
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Blood Group</label>
+                    {{ form.blood_group }}
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Phone</label>
+                    {{ form.phone }}
+                </div>
+
+                <div class="col-md-12 mb-3">
+                    <label class="form-label">Address</label>
+                    {{ form.address }}
+                </div>
+            </div>
+
+            <div class="text-end">
+                <button type="submit" class="btn btn-success">Save</button>
+                <a href="{% url 'admin_patients' %}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

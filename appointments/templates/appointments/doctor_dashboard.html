@@ -1,0 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Doctor Dashboard - ClinicEasy</title>
+  <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/css/main.css' %}" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+<div class="container mt-5">
+  <div class="card shadow">
+    <div class="card-header bg-primary text-white text-center">
+      <h3>Doctor Dashboard</h3>
+    </div>
+
+    <div class="card-body">
+      <table class="table table-bordered table-hover text-center align-middle">
+        <thead class="table-primary">
+          <tr>
+            <th>Patient</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody>
+        {% for a in appointments %}
+          <tr>
+            <td>{{ a.patient_name }}</td>
+            <td>{{ a.email }}</td>
+            <td>{{ a.phone }}</td>
+            <td>{{ a.appointment }}</td>
+
+            <td>
+              {% if a.status == 'Pending' %}
+                <span class="badge bg-warning text-dark">Pending</span>
+              {% elif a.status == 'Approved' %}
+                <span class="badge bg-success">Approved</span>
+              {% else %}
+                <span class="badge bg-danger">Rejected</span>
+              {% endif %}
+            </td>
+
+            <td>
+              {% if a.status == 'Pending' %}
+                <a href="{% url 'update_appointment' a.id 'Approved' %}"
+                   class="btn btn-success btn-sm">
+                  Approve
+                </a>
+                <a href="{% url 'update_appointment' a.id 'Rejected' %}"
+                   class="btn btn-danger btn-sm">
+                  Reject
+                </a>
+              {% else %}
+                <span class="text-muted">Completed</span>
+              {% endif %}
+            </td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="6" class="text-muted text-center">
+              No appointments found
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

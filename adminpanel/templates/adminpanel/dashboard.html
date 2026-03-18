@@ -1,0 +1,173 @@
+{% extends 'adminpanel/base.html' %}
+
+{% block content %}
+
+<h3 class="mb-4 fw-semibold">Admin Dashboard</h3>
+
+<div class="row g-4 mb-4">
+
+    <div class="col-md-4">
+        <div class="card stat-card users">
+            <div class="card-body">
+                <p>Total Users</p>
+                <h2>{{ total_users }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card stat-card admins">
+            <div class="card-body">
+                <p>Total Admins</p>
+                <h2>{{ total_admins }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card stat-card appointments">
+            <div class="card-body">
+                <p>Total Appointments</p>
+                <h2>{{ total_appointments }}</h2>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="row g-4">
+
+    <div class="col-md-8">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h6 class="mb-3 text-muted">Appointment Status Overview</h6>
+                <canvas id="statusChart" height="140"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card shadow-sm">
+            <div class="card-body text-center">
+                <h6 class="mb-3 text-muted">System Ratio</h6>
+                <canvas id="donutChart" height="200"></canvas>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<style>
+.stat-card {
+    color: #fff;
+    border-radius: 15px;
+    border: none;
+    transition: transform 0.3s ease;
+}
+.stat-card:hover {
+    transform: translateY(-6px);
+}
+.stat-card p {
+    margin: 0;
+    font-size: 14px;
+    opacity: 0.9;
+}
+.stat-card h2 {
+    font-weight: 700;
+    margin-top: 5px;
+}
+
+.stat-card.users {
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+}
+.stat-card.admins {
+    background: linear-gradient(135deg, #43e97b, #38f9d7);
+}
+.stat-card.appointments {
+    background: linear-gradient(135deg, #fa709a, #fee140);
+}
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    new Chart(document.getElementById('statusChart'), {
+        type: 'bar',
+        data: {
+            labels: ['Approved', 'Pending', 'Rejected', 'Cancelled'],
+            datasets: [{
+                label: 'Appointments',
+                data: [
+                    {{ status_data.Approved|default:0 }},
+                    {{ status_data.Pending|default:0 }},
+                    {{ status_data.Rejected|default:0 }},
+                    {{ status_data.Cancelled|default:0 }}
+                ],
+            backgroundColor: [
+                '#2E7DFF',   
+                '#26C6DA',   
+                '#EF5350',   
+                '#B0BEC5'    
+            ],
+
+                borderRadius: 8
+            }]
+        },
+        options: {
+            plugins: {
+                legend: { display: false }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        precision: 0
+                    },
+                    title: {
+                        display: true,
+                        text: 'Number of Appointments'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Appointment Status'
+                    }
+                }
+            }
+        }
+    });
+
+    new Chart(document.getElementById('donutChart'), {
+        type: 'doughnut',
+        data: {
+            labels: ['Users', 'Admins', 'Appointments'],
+            datasets: [{
+                data: [
+                    {{ total_users|default:0 }},
+                    {{ total_admins|default:0 }},
+                    {{ total_appointments|default:0 }}
+                ],
+                backgroundColor: [
+                    '#4facfe',
+                    '#43e97b',
+                    '#fa709a'
+                ],
+                cutout: '70%'
+            }]
+        },
+        options: {
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    });
+
+});
+</script>
+
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends 'adminpanel/base.html' %}
+
+{% block content %}
+<div class="card shadow-sm col-md-8 mx-auto">
+    <div class="card-header bg-primary text-white">
+        <h5 class="mb-0">Add Appointment</h5>
+    </div>
+
+    <div class="card-body">
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Patient</label>
+                    {{ form.patient }}
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Doctor</label>
+                    {{ form.doctor }}
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Patient Name</label>
+                    {{ form.patient_name }}
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Email</label>
+                    {{ form.email }}
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Phone</label>
+                    {{ form.phone }}
+                </div>
+
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">Date</label>
+                    {{ form.appointment_date }}
+                </div>
+
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">Time</label>
+                    {{ form.appointment_time }}
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Status</label>
+                    {{ form.status }}
+                </div>
+            </div>
+
+            <div class="text-end">
+                <button class="btn btn-success">Save</button>
+                <a href="{% url 'admin_appointments' %}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

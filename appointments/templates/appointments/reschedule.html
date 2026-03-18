@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Reschedule Appointment - ClinicEasy{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+
+      <div class="card shadow">
+        <div class="card-header bg-warning text-dark text-center">
+          <h4>Reschedule Appointment</h4>
+        </div>
+
+        <div class="card-body">
+          <form method="post">
+            {% csrf_token %}
+
+            <div class="mb-3">
+              <label class="form-label">New Appointment Date</label>
+              <input type="date" name="date" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">New Appointment Time</label>
+              <input type="time" name="time" class="form-control" required>
+            </div>
+
+            <div class="d-flex justify-content-between">
+              <a href="{% url 'my_appointments' %}" class="btn btn-secondary">
+                Back
+              </a>
+              <button type="submit" class="btn btn-primary">
+                Confirm Reschedule
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,115 @@
+{% comment %} from django.contrib.auth.models import User
+from doctors.models import Doctor
+
+doctors = [
+    {
+        "username": "ajay",
+        "password": "test1234",
+        "name": "Dr Ajay Mehta",
+        "specialty": "Neurologist",
+        "specialization": "Neurologist Specialist",
+        "department": "Neurologist",
+        "experience": 14,
+        "description": "Expert in neurological disorders, stroke management, and brain health diagnostics.
+
+"
+    },
+    {
+        "username": "Rohit",
+        "password": "test1234",
+        "name": "Dr Rohit Malhotra",
+        "specialty": "Dermatologist",
+        "specialization": "Dermatologist",
+        "department": "Dermatologist",
+        "experience": 15
+        "description": "Expert in skin care, cosmetic dermatology, and advanced skin treatments.
+
+"
+    },
+    {
+        "username": "Shivam",
+        "password": "test1234",
+        "name": "Dr Shivam iyer",
+        "specialty": "Radiologist",
+        "specialization": "Radiologist Specialist",
+        "department": "Radiologist",
+        "experience": 9,
+        "description": "Specialist in medical imaging, diagnostics, and radiology reporting.
+
+"
+    },
+]
+
+for d in doctors:
+    user, created = User.objects.get_or_create(username=d["username"])
+    if created:
+        user.set_password(d["password"])
+        user.save()
+
+    Doctor.objects.get_or_create(
+        user=user,
+        defaults={
+            "name": d["name"],
+            "specialty": d["specialty"],
+            "specialization": d["specialization"],
+            "department": d["department"],
+            "experience": d["experience"],
+            "description": d["description"],
+            "image": "doctors/default.jpg"
+        }
+    )
+
+print("✅ All doctors added successfully") {% endcomment %}
+
+
+
+
+from django.contrib.auth.models import User
+from doctors.models import Doctor
+
+data = [
+    ("drarjun@gmail.com", "Dr. Arjun Sharma", "Cardiology", "Cardiologist", 18, "Experienced cardiologist specializing in heart health."),
+    ("drajay@gmail.com", "Dr. Ajay Mehta", "Neurology", "Neurologist", 14, "Expert in neurological disorders."),
+    ("dranjali@gmail.com", "Dr. Anjali Verma", "Orthopedics", "Orthopedic Surgeon", 16, "Specialist in joint replacement and trauma."),
+    ("drneha@gmail.com", "Dr. Neha Kapoor", "Pediatrics", "Pediatrician", 12, "Dedicated to child healthcare."),
+    ("drrohit@gmail.com", "Dr. Rohit Malhotra", "Dermatology", "Dermatologist", 15, "Expert in skin care and treatments."),
+    ("drkavita@gmail.com", "Dr. Kavita Nair", "Oncology", "Oncologist", 12, "Specialist in cancer care."),
+    ("drkaran@gmail.com", "Dr. Karan Singh", "Emergency", "Emergency Medicine", 13, "Expert in trauma care."),
+    ("drshivam@gmail.com", "Dr. Shivam Iyer", "Radiology", "Radiologist", 9, "Specialist in medical imaging.")
+]
+
+from django.contrib.auth.models import User
+from doctors.models import Doctor
+
+data = [
+    ("drrahul@gmail.com", "Dr. Rahul Patel", "Cardiology", "Cardiologist", 20, "Heart specialist with advanced treatment experience.", "Ahmedabad"),
+    ("drmehul@gmail.com", "Dr. Mehul Shah", "Neurology", "Neurologist", 11, "Specialist in brain and nerve disorders.", "Rajkot"),
+    ("drpooja@gmail.com", "Dr. Pooja Joshi", "Pediatrics", "Pediatrician", 10, "Focused on child healthcare and growth.", "Ahmedabad"),
+    ("drvishal@gmail.com", "Dr. Vishal Trivedi", "Orthopedics", "Orthopedic Surgeon", 17, "Expert in bone and joint surgeries.", "Rajkot"),
+    ("drheena@gmail.com", "Dr. Heena Desai", "Dermatology", "Dermatologist", 9, "Skin care and cosmetic specialist.", "Ahmedabad"),
+    ("drmanish@gmail.com", "Dr. Manish Bhatt", "Oncology", "Oncologist", 13, "Cancer specialist with modern treatments.", "Rajkot"),
+    ("drsneha@gmail.com", "Dr. Sneha Pandya", "Radiology", "Radiologist", 8, "Expert in MRI and CT scan diagnosis.", "Ahmedabad"),
+    ("drnikhil@gmail.com", "Dr. Nikhil Vyas", "Emergency", "Emergency Medicine", 12, "Handles trauma and emergency cases.", "Rajkot"),
+    ("drankit@gmail.com", "Dr. Ankit Dave", "Cardiology", "Cardiologist", 15, "Experienced in heart surgeries.", "Ahmedabad"),
+    ("drkrunal@gmail.com", "Dr. Krunal Patel", "Dermatology", "Dermatologist", 7, "Skin specialist with modern techniques.", "Rajkot"),
+]
+for email, name, dept, spec, exp, desc, loc in data:
+    if not User.objects.filter(username=email).exists():
+
+        user = User.objects.create_user(
+            username=email,
+            email=email,
+            password="doctor123"
+        )
+
+        Doctor.objects.create(
+            user=user,
+            name=name,
+            department=dept,
+            specialization=spec,
+            experience=exp,
+            description=desc,
+            location=loc
+        )
+
+print("Doctors added successfully!")

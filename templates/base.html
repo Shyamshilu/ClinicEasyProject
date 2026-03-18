@@ -1,0 +1,207 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>{% block title %}ClinicEasy{% endblock %}</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+
+  <!-- Favicons -->
+  <link href="{% static 'assets/img/favicon2.jpg' %}" rel="icon">
+  <link href="{% static 'assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/aos/aos.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link href="{% static 'assets/css/main.css' %}" rel="stylesheet">
+
+  <!-- Custom Navbar & Footer CSS -->
+  <link href="{% static 'css/style.css' %}" rel="stylesheet">
+
+  
+  {% block extra_css %}{% endblock %}
+</head>
+
+<body{% block body_class %}{% endblock %}>
+
+  <!-- ================= HEADER ================= -->
+  <header id="header" class="header fixed-top">
+
+    <div class="topbar d-flex align-items-center dark-background">
+      <div class="container d-flex justify-content-center justify-content-md-between">
+        <div class="contact-info d-flex align-items-center">
+          <i class="bi bi-envelope d-flex align-items-center"><a href="mailto:bookappointment@gmail.com">bookappointment@gmail.com</a></i>
+          <i class="bi bi-phone d-flex align-items-center ms-4"><span>+91 1234567890</span></i>
+        </div>
+        {% if request.user.is_authenticated %}
+        <div class="d-flex align-items-center gap-3">
+          <span class="nav-link fw-semibold text-white mb-0">
+            <i class="bi bi-person-circle"></i> Welcome, {{ request.user.username }}
+          </span>
+          <form method="post" action="{% url 'logout' %}" class="m-0">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger btn-sm">
+              <i class="bi bi-box-arrow-right"></i> Logout
+            </button>
+          </form>
+        </div>
+        {% else %}
+        <div>
+          <a href="{% url 'login' %}" class="btn btn-light btn-sm">
+            <i class="bi bi-box-arrow-in-right"></i> Login
+          </a>
+        </div>
+        {% endif %}
+      </div>
+    </div><!-- End Top Bar -->
+
+    <div class="branding d-flex align-items-center">
+      <div class="container position-relative d-flex align-items-center justify-content-between">
+        <a href="{% url 'index' %}" class="logo d-flex align-items-center">
+          <h1 class="sitename">ClinicEasy</h1>
+        </a>
+
+        <nav id="navmenu" class="navmenu">
+          <ul>
+            <li><a href="{% url 'index' %}" class="{% if request.resolver_match.url_name == 'index' %}active{% endif %}">Home</a></li>
+            <li><a href="{% url 'about' %}" class="{% if request.resolver_match.url_name == 'about' %}active{% endif %}">About</a></li>
+            <li><a href="{% url 'services' %}" class="{% if request.resolver_match.url_name == 'services' %}active{% endif %}">Services</a></li>
+            <li><a href="{% url 'doctors' %}" class="{% if request.resolver_match.url_name == 'doctors' %}active{% endif %}">Doctors</a></li>
+            
+            <li><a href="{% url 'contact' %}" class="{% if request.resolver_match.url_name == 'contact' %}active{% endif %}">Contact Us</a></li>
+            {% if user.is_authenticated %}
+            <li><a href="{% url 'my_appointments' %}" class="{% if request.resolver_match.url_name == 'my_appointments' %}active{% endif %}">My Appointments</a></li>
+            {% endif %}
+          </ul>
+          <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+        </nav>
+
+      </div>
+    </div>
+
+  </header><!-- End Header -->
+
+  <main class="main">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer id="footer" class="footer">
+    <div class="container">
+      <div class="footer-wrapper">
+        <div class="row g-5">
+
+          <!-- Brand & About -->
+          <div class="col-lg-3 col-md-6">
+            <div class="footer-brand">
+              <h4>ClinicEasy</h4>
+              <p>Your trusted healthcare partner providing world-class medical services and patient care.</p>
+              <div class="footer-social">
+                <a href="#" aria-label="facebook"><i class="bi bi-facebook"></i></a>
+                <a href="#" aria-label="twitter"><i class="bi bi-twitter"></i></a>
+                <a href="#" aria-label="linkedin"><i class="bi bi-linkedin"></i></a>
+                <a href="#" aria-label="instagram"><i class="bi bi-instagram"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Links -->
+          <div class="col-lg-2 col-md-6">
+            <div class="footer-section">
+              <h5>Navigation</h5>
+              <ul>
+                <li><a href="{% url 'index' %}">Home</a></li>
+                <li><a href="{% url 'about' %}">About</a></li>
+                <li><a href="{% url 'services' %}">Services</a></li>
+                <li><a href="{% url 'doctors' %}">Doctors</a></li>
+                <li><a href="{% url 'contact' %}">Contact</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Services -->
+          <div class="col-lg-2 col-md-6">
+            <div class="footer-section">
+              <h5>Services</h5>
+              <ul>
+                <li><a href="#">Emergency Care</a></li>
+                <li><a href="#">Consultation</a></li>
+                <li><a href="#">Laboratory</a></li>
+                <li><a href="#">Diagnostics</a></li>
+                <li><a href="#">Vaccination</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Contact Info -->
+          <div class="col-lg-3 col-md-6">
+            <div class="footer-section">
+              <h5>Contact Us</h5>
+              <div class="footer-contact">
+                <div class="contact-box">
+                  <i class="bi bi-geo-alt"></i>
+                  <div>
+                    <p>12 Kalawad Road<br>Rajkot, India 360001</p>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Divider -->
+        <div class="footer-divider"></div>
+
+        <!-- Footer Bottom -->
+        <div class="footer-bottom">
+          <div class="row align-items-center">
+            <div class="col-md-6 text-center text-md-start">
+              <p>&copy; 2026 <strong>ClinicEasy</strong>. All rights reserved.</p>
+            </div>
+                     </div>
+        </div>
+      </div>
+    </div>
+  </footer><!-- End Footer -->
+
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Preloader -->
+  <div id="preloader"></div>
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
+  <script src="{% static 'assets/vendor/aos/aos.js' %}"></script>
+  <script src="{% static 'assets/vendor/glightbox/js/glightbox.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/purecounter/purecounter_vanilla.js' %}"></script>
+  <script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
+
+  <!-- Main JS File -->
+  <script src="{% static 'assets/js/main.js' %}"></script>
+
+  <!-- Navbar Enhancement Script -->
+  <script src="{% static 'js/navbar.js' %}"></script>
+
+  {% block extra_js %}{% endblock %}
+
+</body>
+
+</html>

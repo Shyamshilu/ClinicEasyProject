@@ -1,0 +1,151 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Patient Registration | ClinicEasy</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Favicons -->
+  <link href="{% static 'assets/img/favicon2.jpg' %}" rel="icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS -->
+  <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+
+  <!-- Main CSS -->
+  <link href="{% static 'assets/css/main.css' %}" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+<!-- Header -->
+<header class="py-3 bg-white shadow-sm">
+  <div class="container d-flex justify-content-between align-items-center">
+    <h2 class="text-primary fw-bold mb-0">ClinicEasy</h2>
+    <a href="{% url 'login' %}" class="btn btn-outline-primary btn-sm">Login</a>
+  </div>
+</header>
+
+<!-- Registration Section -->
+<section class="py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-7 col-md-9">
+
+        <div class="card shadow-lg border-0 rounded-4">
+          <div class="card-body p-5">
+
+            <h3 class="text-center mb-4 fw-bold text-primary">
+              Patient Registration
+            </h3>
+
+            {% if error %}
+              <div class="alert alert-danger text-center">{{ error }}</div>
+            {% endif %}
+
+            <form method="post" action="{% url 'register' %}">
+              {% csrf_token %}
+
+              <div class="row g-3">
+
+                <div class="col-md-6">
+                  <label class="form-label">Patient Name</label>
+                  <input type="text" name="patientname"  placeholder="Enter Name" class="form-control" required pattern="[A-Za-z ]+" title="Only letters and spaces allowed">
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label">Gender</label>
+                  <select name="gender" class="form-select" required>
+                    <option value="">Select</option>
+                    <option>Male</option>
+                    <option>Female</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label">Blood Group</label>
+                  <input type="text" name="bloodgroup" class="form-control"placeholder="e.g. A+, O-"required pattern="^(A|B|AB|O)[+-]$" title="Enter valid blood group (A+, A-, B+, B-, AB+, AB-, O+, O-)">
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label">Mobile Number</label>
+                  <input type="tel" name="mobile" placeholder="Enter Mobile Number" class="form-control"required inputmode="numeric"pattern="[0-9]{10}" maxlength="10"oninput="this.value=this.value.replace(/[^0-9]/g,'')" title="Enter exactly 10 digit mobile number">
+                </div>
+
+                <div class="col-md-12">
+                  <label class="form-label">Email Address</label>
+                  <input type="email" name="email"  placeholder="Enter Email" class="form-control" required>
+                </div>
+
+                <!-- Address -->
+                <div class="col-md-12">
+                  <label class="form-label">Address</label>
+                  <textarea name="address" rows="3" class="form-control" placeholder="Enter Address" required></textarea>
+                </div>
+
+                <!-- Password -->
+                <div class="col-md-6">
+                  <label class="form-label">Password</label>
+                  <input type="password" name="password" id="password" class="form-control" required minlength="6" title="Password must be at least 6 characters">
+                </div>
+
+                <!-- Confirm Password -->
+                <div class="col-md-6">
+                  <label class="form-label">Confirm Password</label>
+                  <input type="password" name="confirm_password" id="confirm_password"
+                         class="form-control" required>
+                </div>
+
+              </div>
+
+              <div class="mt-4 d-grid">
+                <button type="submit" class="btn btn-primary btn-lg">
+                  Register
+                </button>
+              </div>
+
+            </form>
+
+            <p class="text-center mt-4 mb-0">
+              Already have an account?
+              <a href="{% url 'login' %}" class="text-primary fw-semibold">Login here</a>
+            </p>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="py-4 bg-white mt-5 border-top">
+  <div class="container text-center">
+    <p class="mb-0 text-muted">
+      © 2026 <strong>ClinicEasy</strong>. All Rights Reserved.
+    </p>
+  </div>
+</footer>
+
+<!-- Password Match Validation -->
+<script>
+document.querySelector("form").addEventListener("submit", function(e) {
+  const pass = document.getElementById("password").value;
+  const cpass = document.getElementById("confirm_password").value;
+
+  if (pass !== cpass) {
+    alert("Password and Confirm Password do not match.");
+    e.preventDefault();
+  }
+});
+</script>
+
+</body>
+</html>

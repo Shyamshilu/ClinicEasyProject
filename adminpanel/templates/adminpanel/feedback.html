@@ -1,0 +1,40 @@
+{% extends 'adminpanel/base.html' %}
+
+{% block content %}
+<h4 class="mb-4">User Feedback</h4>
+
+<div class="card shadow-sm">
+  <div class="card-body">
+
+    <table class="table table-bordered table-hover">
+      <thead class="table-light">
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Subject</th>
+          <th>Message</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for f in feedbacks %}
+        <tr>
+          <td>{{ f.name }}</td>
+          <td>{{ f.email }}</td>
+          <td>{{ f.subject }}</td>
+          <td>{{ f.message|truncatechars:50 }}</td>
+          <td>{{ f.created_at|date:"d M Y H:i" }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="5" class="text-center text-muted">
+            No feedback found
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+  </div>
+</div>
+{% endblock %}

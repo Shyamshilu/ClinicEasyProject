@@ -1,0 +1,41 @@
+{% extends 'adminpanel/base.html' %}
+
+{% block content %}
+<div class="d-flex justify-content-between mb-3">
+    <h4>Doctors</h4>
+    <a href="{% url 'admin_add_doctor' %}" class="btn btn-success">➕ Add Doctor</a>
+</div>
+
+<table class="table table-bordered table-hover bg-white">
+    <thead class="table-light">
+        <tr>
+            <th>ID</th>
+            <th>Doctor</th>
+            <th>Department</th>
+            <th>Specialization</th>
+            <th>Experience</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for d in doctors %}
+        <tr>
+            <td>{{ d.id }}</td>
+            <td>{{ d.name }}</td>
+            <td>{{ d.department }}</td>
+            <td>{{ d.specialization }}</td>
+            <td>{{ d.experience }} yrs</td>
+            <td>
+                <a href="{% url 'admin_edit_doctor' d.id %}" class="btn btn-sm btn-warning">Edit</a>
+                <a href="{% url 'admin_delete_doctor' d.id %}" class="btn btn-sm btn-danger">Delete</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="6" class="text-center text-muted">No doctors found</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

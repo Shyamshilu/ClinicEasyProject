@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Appointment - ClinicEasy{% endblock %}
+{% block body_class %}class="appointment-page"{% endblock %}
+
+{% block content %}
+
+<!-- Page Title -->
+<div class="page-title">
+  <div class="heading">
+    <div class="container text-center">
+      <h1>Book Appointment</h1>
+      <p>Schedule your appointment with available doctor</p>
+    </div>
+  </div>
+  <nav class="breadcrumbs">
+    <div class="container">
+      <ol>
+        <li><a href="{% url 'index' %}">Home</a></li>
+        <li class="current">Appointment</li>
+      </ol>
+    </div>
+  </nav>
+</div>
+<!-- End Page Title -->
+
+<!-- Appointment Section -->
+<section class="appointment section py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+
+        <div class="card shadow-lg">
+          <div class="card-body">
+
+            <h3 class="text-center mb-4">Schedule Your Appointment</h3>
+<!-- ✅ ERROR / SUCCESS MESSAGES (ALWAYS RED) -->
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      {{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+  {% endfor %}
+{% endif %}
+
+            <form method="post" action="{% url 'appointment' doctor.id %}">
+              {% csrf_token %}
+
+              <div class="row g-4">
+
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold">Full Name *</label>
+                  <input type="text" name="name" class="form-control form-control-lg"
+                         placeholder="Enter your full name" required>
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold">Email *</label>
+                  <input type="email" name="email" class="form-control form-control-lg"
+                         value="{{ user.email }}" readonly required>
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold">Phone *</label>
+                  <input type="tel" name="phone"
+                         class="form-control form-control-lg"
+                         placeholder="10-digit phone number"
+                         inputmode="numeric"
+                         maxlength="10"
+                         oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10)"
+                         required>
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold">Doctor</label>
+                  <input type="text" class="form-control form-control-lg"
+                         value="{{ doctor.name }}" readonly>
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold">Select Date *</label>
+                  <input type="date" name="date"
+                         class="form-control form-control-lg"
+                         min="{% now 'Y-m-d' %}" required>
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold">Select Time *</label>
+                  <input type="time" name="time"
+                         class="form-control form-control-lg"
+                         required>
+                </div>
+
+                <div class="col-12 d-grid mt-3">
+                  <button type="submit" class="btn btn-primary btn-lg">
+                    <i class="bi bi-calendar-check"></i> Book Appointment
+                  </button>
+                </div>
+
+              </div>
+            </form>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

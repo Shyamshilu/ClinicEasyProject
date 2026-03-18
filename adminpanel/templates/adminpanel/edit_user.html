@@ -1,0 +1,22 @@
+{% extends 'adminpanel/base.html' %}
+
+{% block content %}
+<h2>Edit User</h2>
+
+<form method="post" class="card p-4 col-md-6">
+    {% csrf_token %}
+
+    <input type="text" name="username" value="{{ user.username }}" class="form-control mb-3" required>
+    <input type="email" name="email" value="{{ user.email }}" class="form-control mb-3">
+
+    <input type="password" name="password" class="form-control mb-3" placeholder="New Password (optional)">
+
+    <div class="form-check mb-3">
+        <input type="checkbox" name="is_superuser" class="form-check-input"
+               {% if user.is_superuser %}checked{% endif %}>
+        <label class="form-check-label">Superuser</label>
+    </div>
+
+    <button class="btn btn-primary">Update User</button>
+</form>
+{% endblock %}

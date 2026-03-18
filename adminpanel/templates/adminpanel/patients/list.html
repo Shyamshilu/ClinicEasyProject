@@ -1,0 +1,28 @@
+{% extends 'adminpanel/base.html' %}
+
+{% block content %}
+<h2>Patients</h2>
+
+<a href="{% url 'admin_add_patient' %}" class="btn btn-success mb-3">
+    Add Patient
+</a>
+
+<table class="table table-bordered">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Actions</th>
+    </tr>
+
+    {% for patient in patients %}
+    <tr>
+        <td>{{ patient.id }}</td>
+        <td>{{ patient.name }}</td>
+            <td>
+            <a href="{% url 'admin_edit_patient' patient.id %}" class="btn btn-sm btn-warning">Edit</a>
+            <a href="{% url 'admin_delete_patient' patient.id %}" class="btn btn-sm btn-danger">Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
