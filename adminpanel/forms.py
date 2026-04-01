@@ -1,3 +1,5 @@
+from django import forms
+from appointments.models import Appointment
 from accounts.models import Patient
 from appointments.models import Appointment
 from django import forms
@@ -37,9 +39,6 @@ class PatientForm(forms.ModelForm):
                 'class': 'form-control'
             })
 
-
-from django import forms
-from appointments.models import Appointment
 
 class AppointmentForm(forms.ModelForm):
     class Meta:

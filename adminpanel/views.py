@@ -8,6 +8,7 @@ from appointments import appointments
 from .forms import PatientForm,AppointmentForm
 from accounts import models
 from django.shortcuts import render, redirect, get_object_or_404
+from django.views.decorators.csrf import csrf_protect, csrf_exempt
 from appointments.models import Appointment,ContactMessage
 from doctors.models import Doctor
 from adminpanel.forms import DoctorForm
@@ -22,7 +23,7 @@ try:
 except ImportError:
     OPENPYXL_AVAILABLE = False
 
-
+@csrf_exempt
 def admin_login(request):
     if request.method == "POST":
         username = request.POST.get('username')
@@ -40,12 +41,10 @@ def admin_login(request):
 
     return render(request, 'adminpanel/login.html')
 
-
 @login_required(login_url='admin_login')
 def admin_logout(request):
     logout(request)
     return redirect('admin_login')
-
 
 def admin_dashboard(request):
     total_users = User.objects.filter(is_staff=False).count()
@@ -122,7 +121,6 @@ def admin_users(request):
         'search': search
     })
 
-
 @login_required(login_url='admin_login')
 def admin_add_user(request):
     if not request.user.is_superuser:
@@ -145,7 +143,6 @@ def admin_add_user(request):
 
     return render(request, 'adminpanel/add_user.html')
 
-
 @login_required(login_url='admin_login')
 def admin_edit_user(request, user_id):
     if not request.user.is_superuser:
@@ -167,7 +164,6 @@ def admin_edit_user(request, user_id):
 
     return render(request, 'adminpanel/edit_user.html', {'user': user})
 
-
 @login_required(login_url='admin_login')
 def admin_delete_user(request, user_id):
     if not request.user.is_superuser:
@@ -181,8 +177,6 @@ def admin_delete_user(request, user_id):
 
     return render(request, 'adminpanel/delete_user.html', {'user': user})
 
-
-
 @login_required(login_url='admin_login')
 def admin_patients(request):
     if not request.user.is_superuser:
@@ -193,7 +187,6 @@ def admin_patients(request):
     return render(request, 'adminpanel/patients/list.html', {
         'patients': patients
     })
-
 
 @login_required(login_url='admin_login')
 def admin_add_patient(request):
@@ -227,7 +220,6 @@ def admin_edit_patient(request, patient_id):
         'patient': patient
     })
 
-
 @login_required(login_url='admin_login')
 def admin_delete_patient(request, patient_id):
     if not request.user.is_superuser:
@@ -256,7 +248,6 @@ def admin_appointments(request):
         'appointments': appointments
     })
 
-
 def admin_add_appointment(request):
     if request.method == 'POST':
         form = AppointmentForm(request.POST)
@@ -284,7 +275,6 @@ def admin_doctors(request):
         'doctors': doctors
     })
 
-
 @login_required(login_url='admin_login')
 def admin_add_doctor(request):
     if not request.user.is_superuser:
@@ -299,7 +289,6 @@ def admin_add_doctor(request):
     return render(request, 'adminpanel/doctors/add.html', {
         'form': form
     })
-
 
 @login_required(login_url='admin_login')
 def admin_edit_doctor(request, doctor_id):
@@ -318,7 +307,6 @@ def admin_edit_doctor(request, doctor_id):
         'doctor': doctor
     })
 
-
 @login_required(login_url='admin_login')
 def admin_delete_doctor(request, doctor_id):
     if not request.user.is_superuser:
@@ -333,7 +321,6 @@ def admin_delete_doctor(request, doctor_id):
     return render(request, 'adminpanel/doctors/delete.html', {
         'doctor': doctor
     })
-
 
 def export_appointments_excel(request):
     """Export appointments as Excel file"""
@@ -401,7 +388,6 @@ def export_appointments_excel(request):
     
     return response
 
-
 @staff_member_required
 def admin_delete_appointment(request, id):
     appointment = get_object_or_404(Appointment, id=id)
@@ -409,7 +395,6 @@ def admin_delete_appointment(request, id):
 
     messages.success(request, "Appointment deleted successfully.")
     return redirect("admin_appointments")
-
 
 @staff_member_required
 def admin_feedback(request):

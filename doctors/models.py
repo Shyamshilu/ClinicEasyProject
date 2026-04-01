@@ -6,7 +6,7 @@ class Doctor(models.Model):
     name = models.CharField(max_length=100)
     department = models.CharField(max_length=100)
     specialization = models.CharField(max_length=100)
-    location = models.CharField(max_length=100,default='Rajkot')   # ✅ ADD THIS LINE
+    location = models.CharField(max_length=100,default='Rajkot')   
     experience = models.IntegerField()
     description = models.TextField(blank=True)
     image = models.ImageField(upload_to='doctors/', default='assets/img/health/doctor-default.webp')
@@ -33,7 +33,7 @@ class Review(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        unique_together = ['doctor', 'user']  # prevent duplicate review
+        unique_together = ['doctor', 'user']  
 
     def __str__(self):
         return f"{self.user.username} - {self.doctor.name}"

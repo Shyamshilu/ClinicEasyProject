@@ -6,6 +6,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 from .models import Appointment,ContactMessage
 from doctors.models import Doctor, DoctorSlot
+from .models import Appointment
 
 # DOCTOR DASHBOARD
 @login_required
@@ -114,12 +115,11 @@ def book_appointment(request, doctor_id):
 
         # CHECK IF SLOT IS ALREADY BOOKED
         slot_exists = Appointment.objects.filter(
-            doctor=doctor,
-            appointment_date=appointment_date,
-            appointment_time=appointment_time,
-            status__in=["Pending", "Approved"]
-        ).exists()
-
+        doctor=doctor,
+        appointment_date=appointment_date,
+        appointment_time=appointment_time
+        ).exclude(status="Cancelled").exists()
+       
         if slot_exists:
             messages.error(
                 request,
@@ -204,37 +204,44 @@ def cancel_appointment(request, id):
     messages.success(request, "Appointment cancelled.")
     return redirect("my_appointments")
 
-
-# RESCHEDULE APPOINTMENT
 @login_required
 def reschedule_appointment(request, id):
     appointment = get_object_or_404(
-    Appointment, id=id,patient=request.user
-     )
+        Appointment, id=id, patient=request.user
+    )
 
     if request.method == "POST":
-        appointment.reschedule_date = request.POST["date"]
-        appointment.reschedule_time = request.POST["time"]
+        new_date = request.POST.get("date")
+        new_time = request.POST.get("time")
+
+        # ❌ if both empty → show error
+        if not new_date and not new_time:
+            messages.error(request, "Please select at least date or time.")
+            return redirect("reschedule_appointment", id=appointment.id)
+
+        # 👉 use old values if empty
+        if not new_date:
+            new_date = appointment.appointment_date
+
+        if not new_time:
+            new_time = appointment.appointment_time
+
+        # 🚨 CHECK SLOT CONFLICT
+        exists = Appointment.objects.filter(
+            doctor=appointment.doctor,
+            appointment_date=new_date,
+            appointment_time=new_time
+        ).exclude(id=appointment.id).exclude(status="Cancelled").exists()
+
+        if exists:
+            messages.error(request, "This slot is already booked.")
+            return redirect("reschedule_appointment", id=appointment.id)
+
+        # ✅ SAVE
+        appointment.appointment_date = new_date
+        appointment.appointment_time = new_time
         appointment.status = "Rescheduled"
         appointment.save()
-
-        send_mail(
-            subject="Appointment Rescheduled - ClinicEasy",
-            message=f"""
-                Dear {appointment.patient_name},
-
-                Your appointment has been Rescheduled.
-
-                Doctor: {appointment.doctor.name}
-                New Date: {appointment.reschedule_date}
-                New Time: {appointment.reschedule_time}
-
-                Thank you for using ClinicEasy.
-                """,
-            from_email=settings.DEFAULT_FROM_EMAIL,
-            fail_silently=False,
-            recipient_list=[appointment.email]
-        )
 
         messages.success(request, "Appointment Rescheduled.")
         return redirect("my_appointments")

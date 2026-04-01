@@ -11,22 +11,8 @@
 <div class="page-title">
   <div class="heading">
     <div class="container">
-      <div class="row d-flex justify-content-center text-center">
-        <div class="col-lg-8">
-          <h1 class="heading-title">Services</h1>
-          
-        </div>
-      </div>
     </div>
   </div>
-  <nav class="breadcrumbs">
-    <div class="container">
-      <ol>
-        <li><a href="{% url 'index' %}">Home</a></li>
-        <li class="current">Services</li>
-      </ol>
-    </div>
-  </nav>
 </div><!-- End Page Title -->
 
 <!-- Services Section -->
@@ -51,7 +37,7 @@
               <span class="feature-item"><i class="fas fa-check"></i> ECG Testing</span>
               <span class="feature-item"><i class="fas fa-check"></i> Heart Surgery</span>
             </div>
-            <a href="{% url 'service-details' %}" class="service-btn">
+<a href="{% url 'service-details' 'cardiology' %}" class="service-btn">
               <span>Learn More</span>
               <i class="fas fa-arrow-right"></i>
             </a>
@@ -74,7 +60,7 @@
               <span class="feature-item"><i class="fas fa-check"></i> MRI Scans</span>
               <span class="feature-item"><i class="fas fa-check"></i> Stroke Care</span>
             </div>
-            <a href="{% url 'service-details' %}" class="service-btn">
+<a href="{% url 'service-details' 'neurology' %}" class="service-btn">
               <span>Learn More</span>
               <i class="fas fa-arrow-right"></i>
             </a>
@@ -97,7 +83,7 @@
               <span class="feature-item"><i class="fas fa-check"></i> Joint Replacement</span>
               <span class="feature-item"><i class="fas fa-check"></i> Sports Medicine</span>
             </div>
-            <a href="{% url 'service-details' %}" class="service-btn">
+<a href="{% url 'service-details' 'orthopedics' %}" class="service-btn">
               <span>Learn More</span>
               <i class="fas fa-arrow-right"></i>
             </a>
@@ -120,7 +106,7 @@
               <span class="feature-item"><i class="fas fa-check"></i> Well-Child Visits</span>
               <span class="feature-item"><i class="fas fa-check"></i> Immunizations</span>
             </div>
-            <a href="{% url 'service-details' %}" class="service-btn">
+<a href="{% url 'service-details' 'pediatrics' %}" class="service-btn">
               <span>Learn More</span>
               <i class="fas fa-arrow-right"></i>
             </a>
@@ -131,7 +117,7 @@
       <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
         <div class="service-item">
           <div class="service-image">
-            <img src="{% static 'assets/img/health/emergency-2.webp' %}" alt="Emergency Services" class="img-fluid">
+            <img src="{% static 'assets/img/health/emergency-2.jpg' %}" alt="Emergency Services" class="img-fluid">
             <div class="service-overlay">
               <i class="fas fa-ambulance"></i>
             </div>
@@ -143,7 +129,7 @@
               <span class="feature-item"><i class="fas fa-check"></i> Trauma Center</span>
               <span class="feature-item"><i class="fas fa-check"></i> Critical Care</span>
             </div>
-            <a href="{% url 'service-details' %}" class="service-btn">
+<a href="{% url 'service-details' 'emergency' %}" class="service-btn">
               <span>Learn More</span>
               <i class="fas fa-arrow-right"></i>
             </a>
@@ -166,7 +152,7 @@
               <span class="feature-item"><i class="fas fa-check"></i> Blood Tests</span>
               <span class="feature-item"><i class="fas fa-check"></i> Pathology</span>
             </div>
-            <a href="{% url 'service-details' %}" class="service-btn">
+<a href="{% url 'service-details' 'laboratory' %}" class="service-btn">
               <span>Learn More</span>
               <i class="fas fa-arrow-right"></i>
             </a>

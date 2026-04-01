@@ -2,10 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Doctor,Review
 from appointments.models import Appointment
-
-
 from django.db.models import Q, Avg
-from .models import Doctor
 
 def doctor_list(request):
     query = request.GET.get('q')
@@ -15,7 +12,6 @@ def doctor_list(request):
 
     doctors = Doctor.objects.all()
 
-    # Filters
     if query:
         doctors = doctors.filter(Q(name__icontains=query) | Q(specialization__icontains=query))
 
@@ -28,12 +24,12 @@ def doctor_list(request):
     if location:
         doctors = doctors.filter(location__icontains=location)
 
-    # ⭐ Add rating data
     doctors = doctors.annotate(
         avg_rating=Avg('reviews__rating')
     )
 
     return render(request, 'doctors.html', {'doctors': doctors})
+
 @login_required
 def doctor_dashboard(request):
     try:
@@ -70,15 +66,12 @@ def doctor_dashboard(request):
 
     return render(request, 'doctor_dashboard.html', context)
 
-from django.db.models import Avg
-from django.shortcuts import get_object_or_404, redirect, render
-from .models import Doctor, Review
 
 def doctor_detail(request, doctor_id):
     doctor = get_object_or_404(Doctor, id=doctor_id)
     reviews = doctor.reviews.all()
 
-    # ⭐ Calculate average rating
+    #  Calculate average rating
     avg_rating = reviews.aggregate(Avg('rating'))['rating__avg']
     total_reviews = reviews.count()
 

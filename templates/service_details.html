@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container py-5">
+
+  <div class="text-center mb-5">
+    <h1 class="fw-bold">{{ service|title }}</h1>
+  </div>
+
+  <div class="row align-items-center">
+
+    <!-- IMAGE -->
+    <div class="col-lg-6 mb-4">
+
+      {% if service == "cardiology" %}
+        <img src="{% static 'assets/img/health/cardiology-2.webp' %}" class="img-fluid rounded shadow">
+
+      {% elif service == "neurology" %}
+        <img src="{% static 'assets/img/health/neurology-2.webp' %}" class="img-fluid rounded shadow">
+
+      {% elif service == "orthopedics" %}
+        <img src="{% static 'assets/img/health/orthopedics-1.webp' %}" class="img-fluid rounded shadow">
+
+      {% elif service == "pediatrics" %}
+        <img src="{% static 'assets/img/health/pediatrics-4.webp' %}" class="img-fluid rounded shadow">
+
+      {% elif service == "emergency" %}
+        <img src="{% static 'assets/img/health/emergency-2.jpg' %}" class="img-fluid rounded shadow">
+
+      {% elif service == "laboratory" %}
+        <img src="{% static 'assets/img/health/laboratory-3.webp' %}" class="img-fluid rounded shadow">
+
+      {% endif %}
+
+    </div>
+
+    <!-- CONTENT -->
+    <div class="col-lg-6">
+
+      {% if service == "cardiology" %}
+        <h3>Heart Care Services</h3>
+        <p>Advanced treatment for heart diseases and conditions.</p>
+
+      {% elif service == "neurology" %}
+        <h3>Brain & Nervous System</h3>
+        <p>Expert care for neurological disorders.</p>
+
+      {% elif service == "orthopedics" %}
+        <h3>Bone & Joint Care</h3>
+        <p>Specialized treatment for bones and joints.</p>
+
+      {% elif service == "pediatrics" %}
+        <h3>Child Healthcare</h3>
+        <p>Complete care for infants and children.</p>
+
+      {% elif service == "emergency" %}
+        <h3>Emergency Care</h3>
+        <p>24/7 emergency services available.</p>
+
+      {% elif service == "laboratory" %}
+        <h3>Lab Testing</h3>
+        <p>Accurate and fast diagnostic testing.</p>
+
+      {% endif %}
+
+      <ul class="mt-3">
+        <li>✔ Expert Doctors</li>
+        <li>✔ Modern Equipment</li>
+        <li>✔ 24/7 Support</li>
+      </ul>
+
+      <a href="{% url 'doctors' %}" class="btn btn-primary mt-3">
+        Book Appointment
+      </a>
+
+    </div>
+
+  </div>
+
+</div>
+
+{% endblock %}
