@@ -5,6 +5,7 @@ from doctors.models import Doctor
 from django.contrib.auth.models import User
 from .models import Patient,Registration
 from django.contrib import messages
+from django.views.decorators.csrf import csrf_protect, csrf_exempt
 
 def register(request):
     if request.method == "POST":
@@ -55,6 +56,7 @@ def register(request):
 
 
 
+@csrf_exempt
 def login_view(request):
     if request.method == "POST":
         username = request.POST.get("username")  
@@ -89,9 +91,6 @@ def about(request):
 def services(request):
     return render(request, "services.html")
 
-def service_details(request):
-    return render(request, "service-details.html")
-
 def contact(request):
     return render(request, "contact.html")
 
@@ -99,8 +98,16 @@ def logout_view(request):
     logout(request)
     return redirect('login')
 
+def service_details(request, name):
+    return render(request, 'service_details.html', {
+        'service': name
+    })
 
 def login_redirect(request):
-    if hasattr(request.user, 'doctor'):
-        return redirect('doctor_dashboard')
-    return redirect('index')
+    if request.user.is_authenticated:
+        if hasattr(request.user, 'doctor'):
+            return redirect('doctor_dashboard')
+        else:
+            return redirect('index')   # ✅ go to index page
+
+    return redirect('login')

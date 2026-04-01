@@ -8,6 +8,7 @@ from appointments import appointments
 from .forms import PatientForm,AppointmentForm
 from accounts import models
 from django.shortcuts import render, redirect, get_object_or_404
+from django.views.decorators.csrf import csrf_protect, csrf_exempt
 from appointments.models import Appointment,ContactMessage
 from doctors.models import Doctor
 from adminpanel.forms import DoctorForm
@@ -23,6 +24,7 @@ except ImportError:
     OPENPYXL_AVAILABLE = False
 
 
+@csrf_exempt
 def admin_login(request):
     if request.method == "POST":
         username = request.POST.get('username')

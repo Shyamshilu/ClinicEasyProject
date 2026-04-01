@@ -18,6 +18,22 @@
             font-family: 'Segoe UI', sans-serif;
         }
 
+        .form-control:focus {
+    box-shadow: 0 0 0 0.2rem rgba(25,118,210,0.15);
+    border-color: #1976d2;
+}
+
+.input-group-text {
+    transition: 0.3s;
+}
+
+.input-group:focus-within .input-group-text {
+    background: #e3f2fd;
+}
+
+a:hover {
+    text-decoration: underline;
+}
         .login-box {
             width: 100%;
             max-width: 380px;
@@ -107,35 +123,43 @@
         {{ error }}
     </div>
     {% endif %}
+<form method="post">
+    {% csrf_token %}
 
-    <form method="post">
-        {% csrf_token %}
+    <!-- Username -->
+    <div class="mb-3 input-group">
+        <span class="input-group-text">
+            <i class="bi bi-person"></i>
+        </span>
+        <input type="text" name="username"
+               class="form-control"
+               placeholder="Enter Username"
+               required autofocus>
+    </div>
 
-        <div class="mb-3 input-group">
-            <span class="input-group-text">
-                <i class="bi bi-person"></i>
-            </span>
-            <input type="text" name="username"
-                   class="form-control"
-                   placeholder="Username"
-                   required autofocus>
-        </div>
+    <!-- Password -->
+    <div class="mb-3 input-group">
+        <span class="input-group-text">
+            <i class="bi bi-lock"></i>
+        </span>
+        <input type="password" name="password"
+               class="form-control"
+               placeholder="Enter Password"
+               required>
+    </div>
 
-        <div class="mb-4 input-group">
-            <span class="input-group-text">
-                <i class="bi bi-lock"></i>
-            </span>
-            <input type="password" name="password"
-                   class="form-control"
-                   placeholder="Password"
-                   required>
-        </div>
+    <!-- Button -->
+    <button type="submit" class="btn btn-login w-100 mb-3">
+        <i class="bi bi-box-arrow-in-right"></i> Login
+    </button>
 
-        <button type="submit" class="btn btn-login w-100">
-            <i class="bi bi-box-arrow-in-right"></i> Login
-        </button>
-    </form>
-
+    <!-- Switch Login -->
+    <div class="text-center">
+        <a href="{% url 'login' %}" class="text-success fw-semibold text-decoration-none">
+            <i class="bi bi-person"></i> Login as User
+        </a>
+    </div>
+</form>
 </div>
 
 </body>

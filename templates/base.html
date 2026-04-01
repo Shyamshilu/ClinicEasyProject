@@ -70,8 +70,8 @@
     </div><!-- End Top Bar -->
 
     <div class="branding d-flex align-items-center">
-      <div class="container position-relative d-flex align-items-center justify-content-between">
-        <a href="{% url 'index' %}" class="logo d-flex align-items-center">
+    <div class="container d-flex align-items-center justify-content-between">
+      <a href="{% url 'index' %}" class="logo d-flex align-items-center"> 
           <h1 class="sitename">ClinicEasy</h1>
         </a>
 
@@ -81,11 +81,10 @@
             <li><a href="{% url 'about' %}" class="{% if request.resolver_match.url_name == 'about' %}active{% endif %}">About</a></li>
             <li><a href="{% url 'services' %}" class="{% if request.resolver_match.url_name == 'services' %}active{% endif %}">Services</a></li>
             <li><a href="{% url 'doctors' %}" class="{% if request.resolver_match.url_name == 'doctors' %}active{% endif %}">Doctors</a></li>
-            
-            <li><a href="{% url 'contact' %}" class="{% if request.resolver_match.url_name == 'contact' %}active{% endif %}">Contact Us</a></li>
             {% if user.is_authenticated %}
             <li><a href="{% url 'my_appointments' %}" class="{% if request.resolver_match.url_name == 'my_appointments' %}active{% endif %}">My Appointments</a></li>
             {% endif %}
+             <li><a href="{% url 'contact' %}" class="{% if request.resolver_match.url_name == 'contact' %}active{% endif %}">Contact Us</a></li>
           </ul>
           <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
@@ -100,7 +99,7 @@
   </main>
 
   <!-- ================= FOOTER ================= -->
-  <footer id="footer" class="footer">
+  <footer id="footer" class="footer footer-16">
     <div class="container">
       <div class="footer-wrapper">
         <div class="row g-5">

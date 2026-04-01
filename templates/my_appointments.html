@@ -11,23 +11,8 @@
 <div class="page-title">
   <div class="heading">
     <div class="container">
-      <div class="row d-flex justify-content-center text-center">
-        <div class="col-lg-8">
-          <h1 class="heading-title">My Appointments</h1>
-          <p class="mb-0">View and manage your scheduled appointments</p>
-        </div>
-      </div>
     </div>
   </div>
-
-  <nav class="breadcrumbs">
-    <div class="container">
-      <ol>
-        <li><a href="{% url 'index' %}">Home</a></li>
-        <li class="current">My Appointments</li>
-      </ol>
-    </div>
-  </nav>
 </div>
 <!-- End Page Title -->
 
@@ -63,8 +48,8 @@
             {% for a in appointments %}
             <tr class="text-center">
               <td><strong>{{ a.doctor.name }}</strong></td>
-              <td>{{ a.appointment_date|date:"M d, Y" }}</td>
-              <td>{{ a.appointment_time|time:"H:i" }}</td>
+              <td>{{ a.reschedule_date|default:a.appointment_date|date:"M d, Y" }}</td>
+              <td>{{ a.reschedule_time|default:a.appointment_time|time:"H:i" }}</td>
               <td>{{ a.phone }}</td>
 
               <td>

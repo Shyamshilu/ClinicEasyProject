@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-$bklrn5v-#6^a5i9x5fu@bt8d6vl6x15vb%tvlw_nd_6jrg^ly
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -52,14 +52,18 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 ROOT_URLCONF = 'ClinicEasy.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],  # ADD THIS
+        'DIRS': [BASE_DIR / 'templates'],  
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -71,19 +75,18 @@ TEMPLATES = [
         },
     },
 ]
+
+
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [
-    r"C:\Users\dell\Desktop\ClinicEasy\static"
-]
-
+# STATICFILES_DIRS = [
+#     BASE_DIR / "static"
+# ]
 
 WSGI_APPLICATION = 'ClinicEasy.wsgi.application'
 
-# AUTH_USER_MODEL = 'accounts.User'
-
-# Database
-# https://docs.djangoproject.com/en/6.0/ref/settings/#databases
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 DATABASES = {
     'default': {
@@ -127,15 +130,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
-STATIC_URL = 'static/'
 
 # Media files (uploads)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 LOGIN_URL = '/login/'
-LOGIN_REDIRECT_URL = '/login-redirect/'
+LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
 # settings.py
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'

@@ -13,6 +13,7 @@ urlpatterns = [
     
     path('admin-panel/', include('adminpanel.urls')),
     path('appointment/', include('appointments.urls')),
+    path('service-details/<str:name>/', account_views.service_details, name='service-details'),
 ]
 
 if settings.DEBUG:
