@@ -2,11 +2,13 @@ from django.contrib import admin
 from django.urls import path, include
 from accounts import views as account_views
 from django.conf import settings
+from doctors import views
 from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", account_views.home, name="index"),
+    path('add-doctors/', views.add_doctors),
 
     path('', include('accounts.urls')),
     path('', include('doctors.urls')),
