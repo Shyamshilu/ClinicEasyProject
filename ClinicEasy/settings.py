@@ -32,6 +32,7 @@ import os
 STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -78,10 +79,7 @@ TEMPLATES = [
 ]
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [
-    r"C:\Users\dell\Desktop\ClinicEasy\static"
-]
-
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 WSGI_APPLICATION = 'ClinicEasy.wsgi.application'
 
